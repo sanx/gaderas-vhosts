@@ -1,6 +1,6 @@
 {
     "sites": {
-        "127.0.0.1": {
+        "www.mexionario.com": {
             "path": "/home/ubuntu/crowdictionary/server/build/js/app.js"
         }
     }

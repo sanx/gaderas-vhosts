@@ -1,0 +1,25 @@
+{
+  "name": "gaderas-vhosts",
+  "version": "0.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/sanx/gaderas-vhosts.git"
+  },
+  "author": "gerardo@gerardomoad.com",
+  "license": "Copyright, all rights reserved.",
+  "bugs": {
+    "url": "https://github.com/sanx/gaderas-vhosts/issues"
+  },
+  "homepage": "https://github.com/sanx/gaderas-vhosts",
+  "dependencies": {
+    "koa": "^0.13.0",
+    "koa-compose": "^2.3.0",
+    "lodash": "^2.4.1",
+    "nconf": "^0.6.9"
+  }
+}
