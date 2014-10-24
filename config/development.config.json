@@ -1,7 +1,7 @@
 {
     "sites": {
         "127.0.0.1": {
-            "path": "/Users/germoad/crowdictionary/server/build/js/app.js"
+            "path": "/Users/germoad/crowdictionary/server/build/js/app.js" 
         }
     }
 }
