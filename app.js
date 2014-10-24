@@ -8,7 +8,7 @@ var _ = require('lodash');
 var NODE_ENV = process.env.NODE_ENV;
 
 var approot = __dirname;
-nconf.argv().env().file({file: approot + '/config/' + NODE_ENV + '.config.json'});
+nconf.argv().env();
 
 app.keys = nconf.get("cookies:user:secrets").split(',');
 // virtual host apps
@@ -18,10 +18,8 @@ app.keys = nconf.get("cookies:user:secrets").split(',');
 //var wwwSubdomain = composer(testApp);
 //var barSubdomain = composer(require('./apps/array'));
 //console.log("wwwSubdomain: " + wwwSubdomain);
-var sites = nconf.get("sites");
-_.forEach(sites, function (settings, hostname) {
-    return settings.middleware = composer(require(settings.path));
-});
+var wwwMexionario = composer(require("/home/ubuntu/crowdictionary/server/build/js/app.js"));
+var wwwCandidatosMx = composer(require("/home/ubuntu/candidatos-mx"));
 
 // compose koa apps and middleware arrays
 // to be used later in our host switch generator
@@ -49,28 +47,14 @@ app.use(function *(next) {
 // switch between appropriate hosts calling their
 // composed middleware with the appropriate context.
 
-_.forEach(sites, function (settings, hostname) {
-     app.use(function *(next) {
-        if (hostname === this.hostname) {
-            return yield settings.middleware.call(this, next);
-        }
-     })
-});
 app.use(function *(next) {
-  /*switch (this.hostname) {
-    case 'example.com':
-    case 'www.example.com':
-      // displays `Hello from main app`
-      // and sets a `X-Custom` response header
-      return yield wwwSubdomain.call(this, next);
-    case 'bar.example.com':
-      // displays `Howzit? From bar middleware bundle`
-      // and sets a `X-Response-Time` response header
-      return yield barSubdomain.call(this, next);
+  switch (this.hostname) {
+    case 'www.candidatos.mx':
+      return yield wwwCandidatosMx.call(this, next);
     default:
       console.log("on default");
-      return yield wwwSubdomain.call(this, next);
-  }*/
+      return yield wwwMexionario.call(this, next);
+  }
 
   // everything else, eg: 127.0.0.1:3000
   // will propagate to 404 Not Found
