@@ -40,7 +40,7 @@ app.use(function *(next) {
   yield next;
   var ms = new Date - start;
   if ('test' != process.env.NODE_ENV) {
-    console.log('%s %s %s - %sms', this.host, this.method, this.url, ms);
+    console.log('%s %s %s %s - %sms', this.ip, this.host, this.method, this.url, ms);
   }
 });
 
