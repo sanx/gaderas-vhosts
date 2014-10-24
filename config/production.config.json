@@ -1,8 +1,5 @@
 {
     "sites": {
-        "mexionario.com": {
-            "path": "/home/ubuntu/crowdictionary/server/build/js/app.js"
-        },
         "www.mexionario.com": {
             "path": "/home/ubuntu/crowdictionary/server/build/js/app.js"
         }
