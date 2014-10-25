@@ -18,8 +18,15 @@ app.keys = nconf.get("cookies:user:secrets").split(',');
 //var wwwSubdomain = composer(testApp);
 //var barSubdomain = composer(require('./apps/array'));
 //console.log("wwwSubdomain: " + wwwSubdomain);
-var wwwMexionario = composer(require("/home/ubuntu/crowdictionary/server/build/js/app.js"));
-var wwwCandidatosMx = composer(require("/home/ubuntu/candidatos-mx"));
+var wwwMexionario;
+var wwwCandidatosMx;
+
+if ('production' === NODE_ENV) {
+    wwwMexionario = composer(require("/home/ubuntu/crowdictionary/server/build/js/app.js"));
+    wwwCandidatosMx = composer(require("/home/ubuntu/candidatos-mx"));
+} else if ('development' === NODE_ENV) {
+    wwwMexionario = composer(require("/Users/germoad/crowdictionary/server/build/js/app.js"));
+}
 
 // compose koa apps and middleware arrays
 // to be used later in our host switch generator
@@ -48,13 +55,23 @@ app.use(function *(next) {
 // composed middleware with the appropriate context.
 
 app.use(function *(next) {
-  switch (this.hostname) {
-    case 'www.candidatos.mx':
-      return yield wwwCandidatosMx.call(this, next);
-    case 'www.mexionario.com':
-      console.log("on default");
-      return yield wwwMexionario.call(this, next);
-  }
+    if ('production' === NODE_ENV) {
+      switch (this.hostname) {
+        case 'www.candidatos.mx':
+          return yield wwwCandidatosMx.call(this, next);
+        case 'www.mexionario.com':
+          console.log("on default");
+          return yield wwwMexionario.call(this, next);
+      }
+    } else if ('development' === NODE_ENV) {
+      switch (this.hostname) {
+        case 'www.candidatos.mx':
+          return yield wwwCandidatosMx.call(this, next);
+        case '127.0.0.1':
+          console.log("on default");
+          return yield wwwMexionario.call(this, next);
+      }
+    }
 
   // everything else, eg: 127.0.0.1:3000
   // will propagate to 404 Not Found
