@@ -51,7 +51,7 @@ app.use(function *(next) {
   switch (this.hostname) {
     case 'www.candidatos.mx':
       return yield wwwCandidatosMx.call(this, next);
-    default:
+    case 'www.mexionario.com':
       console.log("on default");
       return yield wwwMexionario.call(this, next);
   }
