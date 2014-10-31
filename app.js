@@ -60,7 +60,7 @@ app.use(function *(next) {
 
 app.use(function *(next) {
     if ('production' === NODE_ENV) {
-      switch (this.hostname) {
+      switch (this.hostname.toLowerCase()) { // needed because some user agents don't lowercase urls
         case 'gerardomoad.com':
         case 'slangs.co':
         case 'candidatos.mx':
@@ -73,7 +73,7 @@ app.use(function *(next) {
           return yield wwwMexionario.call(this, next);
       }
     } else if ('development' === NODE_ENV) {
-      switch (this.hostname) {
+      switch (this.hostname.toLowerCase()) { // needed because some user agents don't lowercase urls
         case 'www.candidatos.mx':
           return yield wwwCandidatosMx.call(this, next);
         case 'niet.slangs.co':
