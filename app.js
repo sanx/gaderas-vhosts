@@ -62,6 +62,7 @@ app.use(function *(next) {
     if ('production' === NODE_ENV) {
       switch (this.hostname.toLowerCase()) { // needed because some user agents don't lowercase urls
         case 'gerardomoad.com':
+        case 'mexionario.com':
         case 'slangs.co':
         case 'candidatos.mx':
           return yield redirectToSubdomain.call(this, next, 'www');
