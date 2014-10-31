@@ -38,7 +38,11 @@ function composer(app) {
   var middleware = 'object' === typeof app ? app.middleware : app;
   console.log("pre compose middleware: " + util.inspect(middleware));
   return compose(middleware);
-}
+};
+
+redirectToSubdomain = function *(next, subdo) {
+  this.redirect(this.protocol + "://" + subdo + '.' + this.host + this.url);
+};
 
 // look ma, global response logging for all our apps!
 
@@ -57,6 +61,10 @@ app.use(function *(next) {
 app.use(function *(next) {
     if ('production' === NODE_ENV) {
       switch (this.hostname) {
+        case 'gerardomoad.com':
+        case 'slangs.co':
+        case 'candidatos.mx':
+          return yield redirectToSubdomain.call(this, next, 'www');
         case 'www.candidatos.mx':
           return yield wwwCandidatosMx.call(this, next);
         case 'www.slangs.co':
@@ -68,6 +76,8 @@ app.use(function *(next) {
       switch (this.hostname) {
         case 'www.candidatos.mx':
           return yield wwwCandidatosMx.call(this, next);
+        case 'niet.slangs.co':
+          return yield redirectToSubdomain.call(this, next, 'www');
         case 'dev.slangs.co':
         case '127.0.0.1':
           console.log("on default");
